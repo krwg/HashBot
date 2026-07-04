@@ -1,26 +1,19 @@
-#  _    _           _     ____        _   
-# | |  | |         | |   |  _ \      | |  
-# | |__| | __ _ ___| |__ | |_) | ___ | |_ 
-# |  __  |/ _` / __| '_ \|  _ < / _ \| __|
-# | |  | | (_| \__ \ | | | |_) | (_) | |_ 
-# |_|  |_|\__,_|___/_| |_|____/ \___/ \__|
-# 
+import os
 import telebot
 import hashlib
 import json
 import random
 import requests
-import os
 from zxcvbn import zxcvbn
 import logging
 
 logging.basicConfig(level=logging.INFO)
 
-bot = telebot.TeleBot("YOUR TOKEN")
+bot = telebot.TeleBot(os.environ.get("TELEGRAM_BOT_TOKEN", "YOUR TOKEN"))
 
 @bot.message_handler(commands=['dev'])
 def krwg(message):
-	bot.send_message(message.chat.id, 'Автор бота: @krnwg Канал: @krwgpage') 
+    bot.send_message(message.chat.id, 'Автор бота: @krnwg Канал: @krwgpage')
 
 def check_password(password):
     response = requests.get(f"https://api.pwnedpasswords.com/range/{hashlib.sha1(password.encode()).hexdigest()[:5]}")
@@ -181,4 +174,3 @@ def set_codeword(message):
     bot.reply_to(message, "Кодовое слово успешно установлено.")
 
 bot.polling()
-#developer: krwg
